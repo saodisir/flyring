@@ -405,6 +405,16 @@
   }
   .dl-meta span{display:inline-flex;align-items:center;gap:8px}
   .dl-meta .dot{width:5px;height:5px}
+  /* 备用下载通道（Cloudflare R2）。刻意做得比主按钮弱一档——它是兜底不是主入口。
+     ⚠️ 公共访问开通后：把下面第一行的 `display:none` 删掉即可显示（JS 会填好 URL）。
+     ⚠️ 别同时留两个 display —— 后一个会覆盖前一个（写这行时踩过）。 */
+  .dl-alt{margin-top:18px;color:var(--ink-3);font-size:13px;letter-spacing:.04em;
+    display:none;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap}
+  .dl-alt-label{opacity:.85}
+  .dl-alt-link{color:var(--blue-deep);text-decoration:none;border-bottom:1px solid rgba(18,150,219,.32);
+    padding-bottom:1px;transition:border-color .18s ease,color .18s ease}
+  .dl-alt-link:hover{border-bottom-color:var(--blue)}
+  .dl-alt-sep{opacity:.5}
 
   footer{border-top:1px solid var(--line);padding:34px 0 44px}
   .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -751,10 +761,21 @@
       <h2>为效率而生</h2>
       <p class="dl-sub">拖入「应用程序」即可使用。常驻后台，显示与否自行决定。</p>
       <div class="dl-cta">
-        <!-- Release 上传后此链接自动指向最新版（releases/latest），无需再改；
-             若要直链 DMG 安装包，换成 releases/download/v<版本>/Flyring-<版本>.dmg -->
+        <!-- 主下载走 GitHub releases/latest：**Release 上传后自动指向最新版，无需改**。
+             备用通道（R2）见下方 .dl-alt —— GitHub 在国内时通时不通，
+             已付费用户下载不到包是最伤的失败方式，所以给一条不依赖 GitHub 的路。 -->
         <a class="btn btn-primary" href="https://github.com/saodisir/flyring/releases/latest" target="_blank" rel="noopener">下载完整版 · 14 天全功能试用</a>
         <a class="btn btn-ghost" href="#" onclick="return flyringNotice(event, 'Lite 版正在开发当中，敬请期待')">Lite 版 · 免费，保留基本功能</a>
+      </div>
+      <!-- 备用下载通道（R2）。⚠️ FLYRING_DL_BASE 一旦开通公共访问，把下面的
+           href 换成 https://pub-xxxx.r2.dev/Flyring-<版本>.dmg，并把 data-alt
+           的 display:none 去掉即可上线；不发版时两个链接都不用改（latest 形式）。
+           R2 出网流量永久免费，所以这条通道不会产生流量成本。 -->
+      <div class="dl-alt" data-alt>
+        <span class="dl-alt-label">下载慢或打不开？</span>
+        <a class="dl-alt-link" href="#" data-alt-href>备用下载通道（Cloudflare）</a>
+        <span class="dl-alt-sep" aria-hidden="true">·</span>
+        <a class="dl-alt-link" href="#" data-alt-sha>校验文件</a>
       </div>
       <div class="dl-meta">
         <span><span class="dot"></span>macOS 14+</span>
@@ -855,6 +876,34 @@
       card.style.setProperty("--my", (ev.clientY - r.top) + "px");
     });
   });
+
+  /* ---------- 备用下载通道（R2）----------
+     GitHub 在国内时通时不通，而已付费用户下载不到包是最伤的失败方式。
+     所以给一条不依赖 GitHub 的路：Cloudflare R2（**出网流量永久免费**，不限量不计费）。
+
+     ⚠️ ⚠️ **Sparkle 自动更新仍必须走 GitHub** —— SUFeedURL 与 appcast 的 enclosure
+     都硬编码在 app 里，R2 替代不了。所以这是**兜底**，不是主入口：
+     更新走 GitHub、官网首装下载走 R2，两者分工不是主备。
+
+     ⚠️ 换版时只改下面两个常量（域名由 Cloudflare 随机分配，别猜）：
+       DL_BASE     = R2 控制台 > flyring-dl > Public access 里显示的 r2.dev 地址
+       ALT_VERSION = 当前版本号（拼直链用）
+     为什么用 JS 填而不是直接写 href：域名写死在 HTML 里，换账号/重建 bucket
+     就会静默指向错地址；集中在这里改一处，且「域名没配」时有明确降级（保持隐藏）。 */
+  var DL_BASE = "https://pub-dba38fbc252345628835f13d6cbfec44.r2.dev";
+  var ALT_VERSION = "1.0.0";
+  if (DL_BASE && ALT_VERSION) {
+    var altBox = document.querySelector("[data-alt]");
+    var altHref = document.querySelector("[data-alt-href]");
+    var altSha = document.querySelector("[data-alt-sha]");
+    var file = "Flyring-" + ALT_VERSION + ".dmg";
+    if (altBox && altHref && altSha) {
+      altHref.href = DL_BASE + "/" + file;
+      altSha.href  = DL_BASE + "/" + file + ".sha256";
+      /* 显式设 display：CSS 里默认 display:none（未开通时不该露出坏链接） */
+      altBox.style.display = "flex";
+    }
+  }
 })();
 </script>
 </body>
