@@ -150,7 +150,18 @@
     max-width:560px;margin:0 auto;color:var(--ink-2);font-size:18px;
   }
   .hero .sub-en{margin-top:10px;color:var(--ink-3);font-size:14px;letter-spacing:.04em}
-  .hero-cta{margin-top:44px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .hero-cta{margin-top:44px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center}
+  /* 首屏的备用下载通道按钮：与主按钮同权并排（用户自己判断哪个快），
+     但视觉上弱一档 —— 它的定位是"主按钮卡住时的另一条路"，不是并列的首选。 */
+  .btn-alt{
+    color:var(--ink);background:#fff;
+    border:1px solid rgba(18,42,66,.16);
+    padding:15px 30px;font-size:15px;font-weight:600;
+  }
+  .btn-alt:hover{border-color:var(--blue);color:var(--blue-deep);transform:translateY(-2px);box-shadow:0 8px 24px rgba(18,150,219,.14)}
+  /* Lite 按钮单独一行：小一号 + 弱化，避免三个等权按钮把主入口淹没 */
+  .hero-lite{margin-top:18px;display:flex;justify-content:center}
+  .hero-lite .btn{padding:11px 22px;font-size:14px;font-weight:600}
   .hero-note{
     margin-top:46px;color:var(--ink-3);font-size:14px;letter-spacing:.05em;
   }
@@ -489,6 +500,9 @@
     <p class="sub">不是 Spotlight，不是 Launchpad，也不是 Dock 的替代品。Flyring 是当你想切 App 时，恰好出现在光标旁的那个小面板。</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://github.com/saodisir/flyring/releases/latest" target="_blank" rel="noopener">下载完整版 · 14 天全功能试用</a>
+      <a class="btn btn-alt" href="#" data-alt-href target="_blank" rel="noopener">备用下载源</a>
+    </div>
+    <div class="hero-lite">
       <a class="btn btn-ghost" href="#" onclick="return flyringNotice(event, 'Lite 版正在开发当中，敬请期待')">Lite 版 · 免费，保留基础功能</a>
     </div>
     <p class="hero-note">圆环、网格、放射线三种形态　·　键盘快捷键、鼠标与触控板皆可唤起</p>
@@ -773,7 +787,7 @@
            R2 出网流量永久免费，所以这条通道不会产生流量成本。 -->
       <div class="dl-alt" data-alt>
         <span class="dl-alt-label">下载慢或打不开？</span>
-        <a class="dl-alt-link" href="#" data-alt-href>备用下载通道（Cloudflare）</a>
+        <a class="dl-alt-link" href="#" data-alt-href>换个源下载</a>
         <span class="dl-alt-sep" aria-hidden="true">·</span>
         <a class="dl-alt-link" href="#" data-alt-sha>校验文件</a>
       </div>
@@ -893,16 +907,19 @@
   var DL_BASE = "https://pub-dba38fbc252345628835f13d6cbfec44.r2.dev";
   var ALT_VERSION = "1.0.0";
   if (DL_BASE && ALT_VERSION) {
-    var altBox = document.querySelector("[data-alt]");
-    var altHref = document.querySelector("[data-alt-href]");
-    var altSha = document.querySelector("[data-alt-sha]");
     var file = "Flyring-" + ALT_VERSION + ".dmg";
-    if (altBox && altHref && altSha) {
-      altHref.href = DL_BASE + "/" + file;
-      altSha.href  = DL_BASE + "/" + file + ".sha256";
-      /* 显式设 display：CSS 里默认 display:none（未开通时不该露出坏链接） */
-      altBox.style.display = "flex";
-    }
+    /* ⚠️ 必须用 querySelectorAll 而不是 querySelector：**备用通道在页面上出现两次**
+       （首屏按钮 + 页尾那行），querySelector 只返回第一个 —— 按 DOM 顺序正好是页尾，
+       于是首屏按钮会永远保持 href="#"，点了没反应。那是最不能坏的地方。 */
+    document.querySelectorAll("[data-alt-href]").forEach(function(a){
+      a.href = DL_BASE + "/" + file;
+    });
+    document.querySelectorAll("[data-alt-sha]").forEach(function(a){
+      a.href = DL_BASE + "/" + file + ".sha256";
+    });
+    /* 页尾那条备用通道行在 CSS 里默认 display:none，域名没配就不露坏链接。 */
+    var box = document.querySelector("[data-alt]");
+    if (box) box.style.display = "flex";
   }
 })();
 </script>
