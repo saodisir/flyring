@@ -1,25 +1,25 @@
 <?xml version="1.0" standalone="yes"?>
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
-<channel>
-    <title>Flyring</title>
-    <link>https://github.com/saodisir/flyring</link>
-    <description>Flyring 更新源（手动检查）</description>
-    <item>
-        <title>Flyring 0.1.2</title>
-        <pubDate>Fri, 18 Sep 2026 06:27:21 -0000</pubDate>
-        <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-        <description><![CDATA[<p>Flyring 0.1.2 更新内容：</p><ul><li>新增：网格面板的 App 名称显示方式可自定义（常驻图标下方 / 悬浮时显示），与环形、放射线面板行为统一</li><li>新增：注册与已激活页面说明激活码的 3 台 Mac 使用限制</li><li>修复：更新组件在部分环境下加载失败导致的启动崩溃</li><li>优化：整体稳定性提升</li></ul>]]></description>
-        <enclosure url="https://github.com/saodisir/flyring/releases/download/v0.1.2/Flyring-0.1.2.dmg"
-                   sparkle:version="5"
-                   sparkle:shortVersionString="0.1.2"
-                   type="application/octet-stream"
-                   sparkle:edSignature="ddj+ziBUD/TMyrjBos0uBjQAL4v3VnoweAyxbkpHwLkFSboZ6IG20xok0BQW7tpr4diTXUsGxigiOnPEkxmICQ=="
-                   length="3089133"/>
-    </item>
-</channel>
+    <channel>
+        <title>Flyring</title>
+        <link>https://github.com/saodisir/flyring</link>
+        <description>Flyring 更新源（手动检查）</description>
+        <item>
+            <title>Flyring 1.0.0</title>
+            <pubDate>Thu, 09 Oct 2026 11:57:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.0.0 首个正式版：</p><ul><li>新增：动作圆心可直接切换桌面图标显隐、系统隐藏文件显隐、锁定键盘（3 个新动作）</li><li>新增：每个激活码可在 3 台 Mac 上使用，超出时可在「设备管理」页自助解绑换机</li><li>新增：设备备注名（改名后自动同步到云端设备管理页）</li><li>新增：支持同时持有多个激活码（年码可叠加续期，买断码永久有效，权益自动取最优）</li><li>新增：文件名隐身工具（拖入文件即可隐藏，可从 Finder 找回）</li><li>新增：番茄钟工具</li><li>优化：面板收起更跟手，面板外点击 / Esc / 再按触发键都能收</li><li>优化：菜单栏模式下的窗口列表悬停直达支持自定义修饰键与鼠标键</li><li>修复：断网启动时可能未按上次已知状态生效（被吊销或解绑的机器重启后仍显示为完整版）</li><li>修复：激活码被误操作吊销后无法自助恢复</li><li>修复：「购买 Flyring」按钮点击无反应</li><li>修复：读不到硬件标识的机器无法激活、也收不到吊销通知</li><li>优化：Lite 形态下多窗口切换的鼠标录制器改为灰显 + PRO 角标（此前整行隐藏）</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.0.0/Flyring-1.0.0.dmg"
+                       sparkle:version="46"
+                       sparkle:shortVersionString="1.0.0"
+                       type="application/octet-stream"
+                       sparkle:edSignature="lQXVtaMGL9HKM/7jT/nTQDgY2qbmCX1+fTiTAbKmEkn/5JSPW8xrf7kfuUn5KVuRx8XB1dycwweOubNohgrhDQ=="
+                       length="5174888"/>
+        </item>
+    </channel>
 </rss>
 
 <!-- sparkle-signatures:
-edSignature: jzgU54BdfIbbjmxVZLgkMa7iZ2JAfwv6PNfAFVmIdCC8aCzbyOHttkmuU4DHGm982ZujbJqnGDV+ne1odYtGBA==
-length: 1359
+edSignature: w3kBJMM3PJkcgCNk1RtIQXdvF/cylEk7tdKFS2SmRP0eZvPf+L6wLM3MEnPTwp6Ui0yw8I6SMIoz+9MuNw8nDA==
+length: 2299
 -->
