@@ -75,14 +75,7 @@
     box-shadow:0 8px 28px var(--glow),inset 0 1px 0 rgba(255,255,255,.3);
   }
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(18,150,219,.32),inset 0 1px 0 rgba(255,255,255,.3)}
-  .btn-ghost{
-    color:var(--ink);
-    border:1px solid rgba(18,42,66,.18);
-    background:#ffffff;
-  }
-  .btn-ghost:hover{border-color:var(--blue);color:var(--blue-deep);transform:translateY(-2px);box-shadow:0 8px 24px rgba(18,150,219,.14)}
-
-  /* 滚动入场 */
+    /* 滚动入场 */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
 
@@ -150,18 +143,33 @@
     max-width:560px;margin:0 auto;color:var(--ink-2);font-size:18px;
   }
   .hero .sub-en{margin-top:10px;color:var(--ink-3);font-size:14px;letter-spacing:.04em}
-  .hero-cta{margin-top:44px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center}
-  /* 首屏的备用下载通道按钮：与主按钮同权并排（用户自己判断哪个快），
-     但视觉上弱一档 —— 它的定位是"主按钮卡住时的另一条路"，不是并列的首选。 */
+  /* 三个下载入口的层级（2026-10-09）。
+     语义分组：**前两个是同一产品的两个下载源**（完整版 · GitHub / R2），
+     **第三个是另一个产品**（Lite · App Store）。所以用一条分隔线把断层画出来，
+     不必读文字就知道"右边那个不是同一种东西"。
+       主站完整版   蓝实心—— 唯一主入口
+       备用下载源   白底蓝边 —— 与主站同源，一伙的
+       App Store    灰调描边 —— 不同产品，主动退后
+     三个 padding/字号统一，避免一个胖一个瘦。 */
+  .hero-cta{margin-top:44px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center}
   .btn-alt{
-    color:var(--ink);background:#fff;
-    border:1px solid rgba(18,42,66,.16);
+    color:var(--blue-deep);background:#fff;
+    border:1px solid rgba(18,150,219,.38);
     padding:15px 30px;font-size:15px;font-weight:600;
   }
-  .btn-alt:hover{border-color:var(--blue);color:var(--blue-deep);transform:translateY(-2px);box-shadow:0 8px 24px rgba(18,150,219,.14)}
-  /* Lite 按钮单独一行：小一号 + 弱化，避免三个等权按钮把主入口淹没 */
-  .hero-lite{margin-top:18px;display:flex;justify-content:center}
-  .hero-lite .btn{padding:11px 22px;font-size:14px;font-weight:600}
+  .btn-alt:hover{border-color:var(--blue);background:rgba(18,150,219,.05);transform:translateY(-2px);box-shadow:0 8px 24px rgba(18,150,219,.14)}
+  /* App Store / Lite：灰调描边，与蓝调主站拉开距离 */
+  .btn-store{
+    color:var(--ink-2);background:#fff;
+    border:1px solid rgba(18,42,66,.16);
+    padding:15px 28px;font-size:15px;font-weight:600;
+  }
+  .btn-store:hover{border-color:rgba(18,42,66,.34);color:var(--ink);transform:translateY(-2px);box-shadow:0 8px 22px rgba(18,42,66,.08)}
+  /* 分组分隔线：把"两个源"与"另一个产品"在视觉上切开 */
+  .hero-sep{width:1px;height:26px;background:rgba(18,42,66,.14);margin:0 4px}
+  /* 窄屏下三个按钮会换行，分隔线会孤立在行首/行尾 —— 换行时它失去"分组"含义，
+     反而变成一条莫名其妙的竖线。索性在换行区间隐藏，靠按钮配色仍能分出两组。 */
+  @media (max-width:900px){ .hero-sep{display:none} }
   .hero-note{
     margin-top:46px;color:var(--ink-3);font-size:14px;letter-spacing:.05em;
   }
@@ -339,10 +347,12 @@
     box-shadow:0 4px 14px var(--glow);
   }
   .price-card h3{font-size:18px;font-weight:800}
-  .ch-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .ch-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
   .ch-src{
-    font-family:"JetBrains Mono",monospace;font-size:12px;
-    color:var(--ink-3);letter-spacing:.12em;
+    font-size:12px;font-weight:600;letter-spacing:.02em;
+    color:var(--blue-deep);background:rgba(18,150,219,.09);
+    border:1px solid rgba(18,150,219,.22);
+    padding:3px 10px;border-radius:999px;white-space:nowrap;
   }
   /* 价格带：一行横排，按内容定高，不再三行堆叠 */
   .ch-band{display:flex;align-items:baseline;gap:26px;flex-wrap:wrap;padding-bottom:4px}
@@ -501,9 +511,8 @@
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://github.com/saodisir/flyring/releases/latest" target="_blank" rel="noopener">下载完整版 · 14 天全功能试用</a>
       <a class="btn btn-alt" href="#" data-alt-href target="_blank" rel="noopener">备用下载源</a>
-    </div>
-    <div class="hero-lite">
-      <a class="btn btn-ghost" href="#" onclick="return flyringNotice(event, 'Lite 版正在开发当中，敬请期待')">Lite 版 · 免费，保留基础功能</a>
+      <span class="hero-sep" aria-hidden="true"></span>
+      <a class="btn btn-store" href="#" onclick="return flyringNotice(event, 'App Store 版正在上架中，敬请期待')">App Store · Lite 版（免费）</a>
     </div>
     <p class="hero-note">圆环、网格、放射线三种形态　·　键盘快捷键、鼠标与触控板皆可唤起</p>
   </div>
@@ -720,7 +729,7 @@
           <span class="ch-item"><span class="ch-num alt word">永久可用</span><span class="ch-unit">不需要账号</span></span>
         </div>
         <p class="ch-note">Mac App Store 版即将上架。<b>永久免费，不会过期</b>。受 App Store 沙盒限制，只能提供基础功能 —— 触控板手势、鼠标唤起、悬停直达窗口等功能，无法实现。</p>
-        <a class="ch-go" href="#" onclick="return flyringNotice(event, 'Lite 版正在开发当中，敬请期待')">前往下载</a>
+        <a class="ch-go" href="#" onclick="return flyringNotice(event, 'App Store 版正在上架中，敬请期待')">前往下载</a>
       </div>
       <div class="price-card best reveal">
         <span class="price-tag">首发 ¥49</span>
@@ -779,7 +788,7 @@
              备用通道（R2）见下方 .dl-alt —— GitHub 在国内时通时不通，
              已付费用户下载不到包是最伤的失败方式，所以给一条不依赖 GitHub 的路。 -->
         <a class="btn btn-primary" href="https://github.com/saodisir/flyring/releases/latest" target="_blank" rel="noopener">下载完整版 · 14 天全功能试用</a>
-        <a class="btn btn-ghost" href="#" onclick="return flyringNotice(event, 'Lite 版正在开发当中，敬请期待')">Lite 版 · 免费，保留基本功能</a>
+        <a class="btn btn-store" href="#" onclick="return flyringNotice(event, 'App Store 版正在上架中，敬请期待')">App Store · Lite 版（免费）</a>
       </div>
       <!-- 备用下载通道（R2）。⚠️ FLYRING_DL_BASE 一旦开通公共访问，把下面的
            href 换成 https://pub-xxxx.r2.dev/Flyring-<版本>.dmg，并把 data-alt
