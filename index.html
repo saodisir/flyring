@@ -100,14 +100,8 @@
   .topbar a:hover b{text-decoration:underline;text-underline-offset:3px}
   .topbar .promo-arrow{transition:transform .18s ease}
   .topbar a:hover .promo-arrow{transform:translateX(4px)}
-  /* 公告条里的第二个出口：Clothespeg 的 GitHub 仓库 */
-  .topbar a.topbar-gh{
-    padding:3px 14px;margin-left:2px;
-    border:1px solid rgba(234,246,253,.45);border-radius:999px;
-    font-size:12px;font-weight:600;
-    transition:background .15s ease;
-  }
-  .topbar a.topbar-gh:hover{background:rgba(234,246,253,.16)}
+  /* 公告条只留一个出口 → 对方主页（Cloudflare Pages，国内访问稳）。
+     不放 GitHub 直链：GitHub 访问不稳定，仓库入口收在各自主页里。 */
   .topbar-close{
     position:absolute;right:10px;top:50%;transform:translateY(-50%);
     width:24px;height:24px;border:none;border-radius:50%;cursor:pointer;
@@ -502,14 +496,14 @@
 <body>
 
 <!-- ============ 顶部公告条：同厂出品（引流 Clothespeg） ============
-     ⚠️ Clothespeg 官网正式上线后，把两条 href 换成正式域名 + utm 参数（见 CSS 注释）。
+     口径：公告条只留一个出口 → Clothespeg 主页（clothespeg-site.pages.dev，CF 国内访问稳）；
+     GitHub 仓库入口收在 Clothespeg 主页里，公告条不直接甩 GitHub 链接。
      utm 参数别丢——Clothespeg 侧靠它统计这条入口带来的流量。 -->
 <div class="topbar" id="topbar">
-  <a href="https://github.com/saodisir/Clothespeg?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">
+  <a href="https://clothespeg-site.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">
     <span>作者另一款 APP —— <b>Clothespeg：免费优雅的剪贴板 + 便签工具</b></span>
     <span class="promo-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="topbar-gh" href="https://github.com/saodisir/Clothespeg?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="topbar-close" id="topbarClose" aria-label="关闭公告条" title="关闭">✕</button>
 </div>
 
@@ -873,9 +867,9 @@
     </a>
     <div style="text-align:right">
       <p style="display:flex;gap:18px;justify-content:flex-end;margin:0 0 6px">
-        <!-- 互挂引流（与 Clothespeg 主页页脚对称）。 Clothespeg 官网正式上线后，
-             把 GitHub 地址换成 https://<正式域名>/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo -->
-        <a href="https://github.com/saodisir/Clothespeg?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">免费小工具 · Clothespeg ↗</a>
+        <!-- 互挂引流（与 Clothespeg 主页页脚对称）。跳 Clothespeg 主页（CF 稳定），
+             GitHub 入口在 Clothespeg 主页里。正式域名定了以后换 href。 -->
+        <a href="https://clothespeg-site.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">免费小工具 · Clothespeg ↗</a>
         <a href="legal/terms.html">服务条款</a>
         <a href="legal/refund.html">退款政策</a>
       </p>
