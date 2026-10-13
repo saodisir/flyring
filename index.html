@@ -79,9 +79,50 @@
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
 
+  /* ---------- 作者另一款 APP：顶部公告条（引流到 Clothespeg） ---------- */
+  /* 口径：通栏公告条是通行的"另一个入口"形态，不进导航、不抢 CTA。
+     与 Clothespeg 主页顶部的 Flyring 公告条互为镜像（互挂引流）。
+     ⚠️ Clothespeg 官网正式上线后，把两条 href 换成
+     https://<正式域名>/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo
+     utm 参数别丢——Clothespeg 侧靠它统计这条入口带来的流量。 */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    height:40px;
+    background:linear-gradient(90deg,var(--blue-deep),var(--blue) 50%,var(--blue-deep));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .topbar a{
+    display:inline-flex;align-items:center;gap:8px;
+    color:#eaf6fd;font-size:13px;letter-spacing:.02em;
+    padding:2px 30px 2px 0; /* 给右侧 × 留位，避免重叠 */
+  }
+  .topbar a b{color:#fff;font-weight:700}
+  .topbar a:hover b{text-decoration:underline;text-underline-offset:3px}
+  .topbar .promo-arrow{transition:transform .18s ease}
+  .topbar a:hover .promo-arrow{transform:translateX(4px)}
+  /* 公告条里的第二个出口：Clothespeg 的 GitHub 仓库 */
+  .topbar a.topbar-gh{
+    padding:3px 14px;margin-left:2px;
+    border:1px solid rgba(234,246,253,.45);border-radius:999px;
+    font-size:12px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .topbar a.topbar-gh:hover{background:rgba(234,246,253,.16)}
+  .topbar-close{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    width:24px;height:24px;border:none;border-radius:50%;cursor:pointer;
+    background:rgba(234,246,253,.14);color:#eaf6fd;
+    font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;
+    transition:background .15s ease;
+  }
+  .topbar-close:hover{background:rgba(234,246,253,.3)}
+  body.promo-off .topbar{display:none}
+  body.promo-off nav{top:0}
+
   /* ---------- 导航 ---------- */
   nav{
-    position:fixed;top:0;left:0;right:0;z-index:50;
+    position:fixed;top:40px;left:0;right:0;z-index:50;
+    transition:top .25s ease;
     backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     background:rgba(250,251,252,.8);
     border-bottom:1px solid var(--line);
@@ -460,6 +501,18 @@
 </head>
 <body>
 
+<!-- ============ 顶部公告条：同厂出品（引流 Clothespeg） ============
+     ⚠️ Clothespeg 官网正式上线后，把两条 href 换成正式域名 + utm 参数（见 CSS 注释）。
+     utm 参数别丢——Clothespeg 侧靠它统计这条入口带来的流量。 -->
+<div class="topbar" id="topbar">
+  <a href="https://github.com/saodisir/Clothespeg?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">
+    <span>作者另一款 APP —— <b>Clothespeg：免费优雅的剪贴板 + 便签工具</b></span>
+    <span class="promo-arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="topbar-gh" href="https://github.com/saodisir/Clothespeg?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">GitHub ↗</a>
+  <button class="topbar-close" id="topbarClose" aria-label="关闭公告条" title="关闭">✕</button>
+</div>
+
 <!-- ============ 导航 ============ -->
 <nav>
   <div class="nav-inner">
@@ -820,6 +873,9 @@
     </a>
     <div style="text-align:right">
       <p style="display:flex;gap:18px;justify-content:flex-end;margin:0 0 6px">
+        <!-- 互挂引流（与 Clothespeg 主页页脚对称）。 Clothespeg 官网正式上线后，
+             把 GitHub 地址换成 https://<正式域名>/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo -->
+        <a href="https://github.com/saodisir/Clothespeg?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">免费小工具 · Clothespeg ↗</a>
         <a href="legal/terms.html">服务条款</a>
         <a href="legal/refund.html">退款政策</a>
       </p>
@@ -848,6 +904,20 @@
     t._h = setTimeout(function(){ t.classList.remove("show"); }, 2800);
     return false;
   };
+
+  /* ---------- 顶部公告条：关闭后本次会话不再出现 ---------- */
+  var topbarClose = document.getElementById("topbarClose");
+  if (topbarClose) {
+    try {
+      if (sessionStorage.getItem("promoOff") === "1") {
+        document.body.classList.add("promo-off");
+      }
+    } catch(e){}
+    topbarClose.addEventListener("click", function(){
+      document.body.classList.add("promo-off");
+      try { sessionStorage.setItem("promoOff", "1"); } catch(e){}
+    });
+  }
 
   /* ---------- 滚动入场 ---------- */
   var io = new IntersectionObserver(function(es){
