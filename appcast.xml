@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
         <item>
+            <title>Flyring 1.2.1</title>
+            <pubDate>Tue, 13 Oct 2026 03:30:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.2.1：</p><ul><li>优化：检查更新改为并行探测两条通道（此前只探主源，主源恰好抖动时不会尝试备源），谁通走谁；更新检查全程写运行日志，失败不再是无头案</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.2.1/Flyring-1.2.1.dmg"
+                       sparkle:version="49"
+                       sparkle:shortVersionString="1.2.1"
+                       type="application/octet-stream"
+                       sparkle:edSignature="8OnT07+Zbm/wy/R+9JZUIhZDQdWkM6RjsCM8y8b0ZX9/EAUnCGbEEWpSn7g1VgGdUXbbYvh7YJ02adEK2AFKAw=="
+                       length="5194335"/>
+        </item>
+        <item>
             <title>Flyring 1.2.0</title>
             <pubDate>Tue, 13 Oct 2026 03:07:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -44,6 +56,6 @@
 </rss>
 
 <!-- sparkle-signatures:
-edSignature: EbkQpZGTMJXkgZfZJSCBmoJ94DEdrEl3wR/mGBMaNl3id+1Au/7h7dzp5AqSVvOZsPciiqQvQ7Myzs4s0ehHBw==
-length: 4236
+edSignature: TBihQiHh49ANyfv7Fw6r7tO95PE4AEGS3a52HKsKyUHmGrjDmtVQ0i6fvetAPOo1BkKgu+RS6o3/Q7LUN1ENAw==
+length: 5178
 -->
