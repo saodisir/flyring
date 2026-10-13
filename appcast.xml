@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
         <item>
+            <title>Flyring 1.1.0</title>
+            <pubDate>Tue, 13 Oct 2026 02:27:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.1.0：</p><ul><li>新增：触控板长按手势——三指长按、四指长按（设置页手势绑定中可选，默认不绑定）。长按没有轻点那套紧时序窗口，手指不必同时落下，按压 0.6 秒即触发</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.1.0/Flyring-1.1.0.dmg"
+                       sparkle:version="47"
+                       sparkle:shortVersionString="1.1.0"
+                       type="application/octet-stream"
+                       sparkle:edSignature="bJ7Mc8LEXMLG/Ud2vYtBzKrnjrDolD7WsmeqiToJHMgh+LJUcb+Llkfo8dfTBzOMUVgUFxzxUiO1W+ns6/fABg=="
+                       length="5183085"/>
+        </item>
+        <item>
             <title>Flyring 1.0.0</title>
             <pubDate>Thu, 09 Oct 2026 11:57:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -20,6 +32,6 @@
 </rss>
 
 <!-- sparkle-signatures:
-edSignature: w3kBJMM3PJkcgCNk1RtIQXdvF/cylEk7tdKFS2SmRP0eZvPf+L6wLM3MEnPTwp6Ui0yw8I6SMIoz+9MuNw8nDA==
-length: 2299
+edSignature: IvWim6QJf4kWSHqYDLRL9A8kcIj0X44LoE2g5CUbdlYzFbzCa2D5cCTrsJOWYJ8n6BxSS/bCdOqBZQrwfsIFBw==
+length: 3258
 -->
