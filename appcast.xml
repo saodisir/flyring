@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
         <item>
+            <title>Flyring 1.2.3</title>
+            <pubDate>Tue, 13 Oct 2026 05:03:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.2.3：</p><ul><li>优化：更新异常弹窗简化——不再罗列具体下载地址，统一为一个「打开官网」按钮（官网下载区有 GitHub / 备用直链两个入口，可自选）</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.2.3/Flyring-1.2.3.dmg"
+                       sparkle:version="53"
+                       sparkle:shortVersionString="1.2.3"
+                       type="application/octet-stream"
+                       sparkle:edSignature="L5us3t6h5t451zHy0oQRe10ojDDbqw1RGD1yhe2La28zsX37UGrK5ROUDrOFckeu6L+OpZGHIP03I7FWg2lmAQ=="
+                       length="5199709"/>
+        </item>
+        <item>
             <title>Flyring 1.2.2</title>
             <pubDate>Tue, 13 Oct 2026 04:44:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -67,6 +79,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: tIaAX3maqE3x/ZkLXIlt2YpAbomLmvATDAZdlnrnbMb1QjfKMuH+TzxXWncScYmaoKluJzaMc89LKnPTJr9BAQ==
-length: 6378
+edSignature: 3kHmj5gsDv14Fd8Pzo3T+TL/epMO1qXl3Cunb3Tn6yjXLmChAXjvRuwT/9n8fWd0ziSPNh60512pOcc+PT6yBw==
+length: 7306
 -->
