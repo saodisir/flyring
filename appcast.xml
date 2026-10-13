@@ -17,18 +17,6 @@
                        length="5199709"/>
         </item>
         <item>
-            <title>Flyring 1.2.2</title>
-            <pubDate>Tue, 13 Oct 2026 04:44:00 -0000</pubDate>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <description><![CDATA[<p>Flyring 1.2.2：</p><ul><li>优化：更新下载失败时给出失败原因 + 当前版本号 + 手动下载地址，不再弹无出路的通用错误框</li><li>说明：本版本无其他功能变更，用于验证自动更新链路</li></ul>]]></description>
-            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.2.2/Flyring-1.2.2.dmg"
-                       sparkle:version="52"
-                       sparkle:shortVersionString="1.2.2"
-                       type="application/octet-stream"
-                       sparkle:edSignature="Ddk4TwZZhhoyA3FQ/VtSG+fJZS+mePvEGl7ldSG7Rq4/jfOToN8Fin/N9I3ODLJBGiCEy43TvxyF4+KoTOcoCA=="
-                       length="5203983"/>
-        </item>
-        <item>
             <title>Flyring 1.2.1</title>
             <pubDate>Tue, 13 Oct 2026 03:48:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -79,6 +67,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: 3kHmj5gsDv14Fd8Pzo3T+TL/epMO1qXl3Cunb3Tn6yjXLmChAXjvRuwT/9n8fWd0ziSPNh60512pOcc+PT6yBw==
-length: 7306
+edSignature: 8Y7dxMeWiKEChuZmZCLKtbMe1Ly6s0WQJ3pyPGcJi70Vqmhtq3k+J2qNEp6343JWDNcp2Kmu1m5U8/DmXXZ5Aw==
+length: 6352
 -->
