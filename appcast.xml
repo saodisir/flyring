@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
         <item>
+            <title>Flyring 1.2.4</title>
+            <pubDate>Wed, 15 Oct 2026 12:24:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.2.4：</p><ul><li>修复：呼出面板跨桌面 / 跨屏定位——在另一个桌面（Space）或外接副屏触发呼出时，面板现在落到鼠标所在的桌面或显示器，全屏 App 之上也能正常呼出</li><li>修复：Parallels 虚拟机里跑的 Windows App 与同名原生 App 在「正在运行」列表中撞名、无法区分；同名冲突时给 Windows 项追加 " (Windows)" 后缀</li><li>优化：名字气泡里 "(Windows)" 这类括号限定词改为独立第二行显示（字号 9pt、透明度 0.6），主名保持清晰</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.2.4/Flyring-1.2.4.dmg"
+                       sparkle:version="54"
+                       sparkle:shortVersionString="1.2.4"
+                       type="application/octet-stream"
+                       sparkle:edSignature="fh9u00cs4s+X8BjqEvF7At3dUtJy0EubB8ccAgbBC17RxPF/KvfODHvfJ1u+oYPYZ/LSlNhTXyOpTeqqdbP8DQ=="
+                       length="5210179"/>
+        </item>
+        <item>
             <title>Flyring 1.2.3</title>
             <pubDate>Tue, 13 Oct 2026 05:03:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -67,6 +79,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: 8Y7dxMeWiKEChuZmZCLKtbMe1Ly6s0WQJ3pyPGcJi70Vqmhtq3k+J2qNEp6343JWDNcp2Kmu1m5U8/DmXXZ5Aw==
-length: 6352
+edSignature: FuJXdAxt96TgllOJrlpyRBC7EODIR9b0pze64IPkcLBYT7+hl59gYPM6cHuRPhJvaIV1eoDOhXNRu3wpIhrHBw==
+length: 7637
 -->
