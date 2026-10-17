@@ -10,6 +10,7 @@
   定价区（Lite 免费 / 完整版买断为主）、13 项差异对比表（附录A）、特性 03 与 04 加版本限定。
   同日补两个新区块：**圆心动作 14 项**（逐项对 Sources/Flyring/HubAction.swift 的 label，
   改动时必须同步）+ **内置工具 5 项**（对 Tools.swift）。
+  2026-10-17 圆心动作加「麦克风静音」= 15 项；Clothespeg 引流地址改 clothespeg.pages.dev。
   旧版备份：index.html.bak-20261003。
   截图：shots/；跳转按钮中完整版指 GitHub releases，Lite 指 App Store（未上线，toast 提示）。
 -->
@@ -496,11 +497,11 @@
 <body>
 
 <!-- ============ 顶部公告条：同厂出品（引流 Clothespeg） ============
-     口径：公告条只留一个出口 → Clothespeg 主页（clothespeg-site.pages.dev，CF 国内访问稳）；
+     口径：公告条只留一个出口 → Clothespeg 主页（clothespeg.pages.dev，CF 国内访问稳）；
      GitHub 仓库入口收在 Clothespeg 主页里，公告条不直接甩 GitHub 链接。
      utm 参数别丢——Clothespeg 侧靠它统计这条入口带来的流量。 -->
 <div class="topbar" id="topbar">
-  <a href="https://clothespeg-site.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">
+  <a href="https://clothespeg.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">
     <span>作者另一款 APP —— <b>Clothespeg：免费优雅的剪贴板 + 便签工具</b></span>
     <span class="promo-arrow" aria-hidden="true">→</span>
   </a>
@@ -652,7 +653,7 @@
         <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
         <span class="feat-num">06</span>
         <h3>面板正中的按钮</h3>
-        <p>圆心不只是 App 列表的中心 —— 它是一块快捷动作区，14 种系统动作随你挑。</p>
+        <p>圆心不只是 App 列表的中心 —— 它是一块快捷动作区，15 种系统动作随你挑。</p>
       </div>
     </div>
   </div>
@@ -663,7 +664,7 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">HUB ACTIONS · 圆心动作</span>
-      <h2>面板正中，14 种系统动作</h2>
+      <h2>面板正中，15 种系统动作</h2>
     </div>
     <p class="sec-lead reveal">这些不走「打开某个应用」，而是直接执行一件事。放进面板的圆心，或作为一条动作条目放到自定义面板里，点一下就生效。</p>
     <div class="hub-grid reveal">
@@ -677,6 +678,7 @@
       <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg></span><span class="hub-txt"><b>锁屏</b><i>起身离开，顺手一按</i></span></div>
       <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l-1 8H7L6 4z"/><path d="M7 12v2M17 12v2M10 16h4"/></svg></span><span class="hub-txt"><b>屏幕常亮</b><i>演示、看长文时不让它睡</i></span></div>
       <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg></span><span class="hub-txt"><b>静音切换</b><i>状态型：静音了图标就变样</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3.5"/></svg></span><span class="hub-txt"><b>麦克风静音</b><i>管的是默认输入设备，和「静音切换」互补</i></span></div>
       <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5M8.5 3.5l1.2 3.6 3.6 1.2-3.6 1.2-1.2 3.6-1.2-3.6L3.7 8.3l3.6-1.2 1.2-3.6z"/><path d="M18 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z"/></svg></span><span class="hub-txt"><b>钉住面板</b><i>钉住后不随手收起，可连续切换应用</i></span></div>
       <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 13h8M8 16.5h5"/></svg></span><span class="hub-txt"><b>显示 / 隐藏桌面图标</b><i>桌面内容一键隐藏</i></span></div>
       <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M8 8v5M6 10.5h4"/></svg></span><span class="hub-txt"><b>显示隐藏文件</b><i>等价于 Finder 的 ⌘⇧.</i></span></div>
@@ -869,7 +871,7 @@
       <p style="display:flex;gap:18px;justify-content:flex-end;margin:0 0 6px">
         <!-- 互挂引流（与 Clothespeg 主页页脚对称）。跳 Clothespeg 主页（CF 稳定），
              GitHub 入口在 Clothespeg 主页里。正式域名定了以后换 href。 -->
-        <a href="https://clothespeg-site.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">免费小工具 · Clothespeg ↗</a>
+        <a href="https://clothespeg.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">免费小工具 · Clothespeg ↗</a>
         <a href="legal/terms.html">服务条款</a>
         <a href="legal/refund.html">退款政策</a>
       </p>
