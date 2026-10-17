@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flyring — 让启动器长在你的指尖上</title>
+<!--
+  Flyring 宣传+下载页 v3（Lite / Pro 双版本）
+  2026-10-03 按 notes/lite-pro-frozen-plan.md §3.6 第5 步改版：两个下载按钮（§4.2）、
+  定价区（Lite 免费 / 完整版买断为主）、13 项差异对比表（附录A）、特性 03 与 04 加版本限定。
+  同日补两个新区块：**圆心动作 14 项**（逐项对 Sources/Flyring/HubAction.swift 的 label，
+  改动时必须同步）+ **内置工具 5 项**（对 Tools.swift）。
+  旧版备份：index.html.bak-20261003。
+  截图：shots/；跳转按钮中完整版指 GitHub releases，Lite 指 App Store（未上线，toast 提示）。
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fafbfc;
+    --bg-soft:#f2f5f8;
+    --ink:#152230;
+    --ink-2:#4d5f70;
+    --ink-3:#64748a;
+    --blue:#1296db;
+    --blue-light:#3db4e8;
+    --blue-deep:#0b6ea8;
+    --glow:rgba(18,150,219,.18);
+    --line:rgba(18,42,66,.1);
+    --card:#ffffff;
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans SC","Inter",-apple-system,"PingFang SC",sans-serif;
+    font-size:16px;line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(18,150,219,.25)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+  h1,h2{letter-spacing:-.02em;text-wrap:balance}
+  p{text-wrap:pretty}
+
+  /* ---------- 通用小元素 ---------- */
+  .kbd{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:34px;height:34px;padding:0 10px;
+    font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink);
+    background:linear-gradient(180deg,#ffffff,#eef2f6);
+    border:1px solid rgba(18,42,66,.16);
+    border-bottom-width:3px;border-radius:9px;
+    box-shadow:0 3px 8px rgba(18,42,66,.08);
+    transition:transform .12s ease,border-color .12s ease;
+  }
+  .kbd:hover{transform:translateY(2px);border-bottom-width:1px;border-color:var(--blue)}
+  .dot{
+    width:8px;height:8px;border-radius:50%;background:var(--blue);flex:none;
+  }
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:15px 34px;border-radius:999px;
+    font-weight:700;font-size:16px;letter-spacing:.02em;
+    transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+    cursor:pointer;
+  }
+  .btn-primary{
+    color:#fff;
+    background:linear-gradient(135deg,var(--blue-light),var(--blue) 55%,var(--blue-deep));
+    box-shadow:0 8px 28px var(--glow),inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(18,150,219,.32),inset 0 1px 0 rgba(255,255,255,.3)}
+    /* 滚动入场 */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- 作者另一款 APP：顶部公告条（引流到 Clothespeg） ---------- */
+  /* 口径：通栏公告条是通行的"另一个入口"形态，不进导航、不抢 CTA。
+     与 Clothespeg 主页顶部的 Flyring 公告条互为镜像（互挂引流）。
+     ⚠️ Clothespeg 官网正式上线后，把两条 href 换成
+     https://<正式域名>/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo
+     utm 参数别丢——Clothespeg 侧靠它统计这条入口带来的流量。 */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;z-index:60;
+    height:40px;
+    background:linear-gradient(90deg,var(--blue-deep),var(--blue) 50%,var(--blue-deep));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .topbar a{
+    display:inline-flex;align-items:center;gap:8px;
+    color:#eaf6fd;font-size:13px;letter-spacing:.02em;
+    padding:2px 30px 2px 0; /* 给右侧 × 留位，避免重叠 */
+  }
+  .topbar a b{color:#fff;font-weight:700}
+  .topbar a:hover b{text-decoration:underline;text-underline-offset:3px}
+  .topbar .promo-arrow{transition:transform .18s ease}
+  .topbar a:hover .promo-arrow{transform:translateX(4px)}
+  /* 公告条只留一个出口 → 对方主页（Cloudflare Pages，国内访问稳）。
+     不放 GitHub 直链：GitHub 访问不稳定，仓库入口收在各自主页里。 */
+  .topbar-close{
+    position:absolute;right:10px;top:50%;transform:translateY(-50%);
+    width:24px;height:24px;border:none;border-radius:50%;cursor:pointer;
+    background:rgba(234,246,253,.14);color:#eaf6fd;
+    font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;
+    transition:background .15s ease;
+  }
+  .topbar-close:hover{background:rgba(234,246,253,.3)}
+  body.promo-off .topbar{display:none}
+  body.promo-off nav{top:0}
+
+  /* ---------- 导航 ---------- */
+  nav{
+    position:fixed;top:40px;left:0;right:0;z-index:50;
+    transition:top .25s ease;
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:rgba(250,251,252,.8);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1160px;margin:0 auto;padding:0 32px;
+    height:64px;display:flex;align-items:center;gap:36px;
+  }
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.14em;font-size:14px}
+  .brand svg{width:26px;height:26px}
+  .nav-links{display:flex;gap:24px;margin-left:auto;font-size:14px;color:var(--ink-2)}
+  .nav-links a{transition:color .15s}
+  .nav-links a:hover{color:var(--blue)}
+  .nav-cta{
+    margin-left:8px;padding:8px 20px;border-radius:999px;font-size:13px;font-weight:700;
+    color:#fff;background:linear-gradient(135deg,var(--blue-light),var(--blue));
+    transition:transform .15s,box-shadow .15s;
+  }
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px var(--glow)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:170px 0 110px;
+    text-align:center;
+    overflow:hidden;
+  }
+  /* 背景装饰：光晕 + 旋转点环 + 细点阵 */
+  .hero-bg{position:absolute;inset:0;pointer-events:none}
+  .glow-blob{position:absolute;border-radius:50%;filter:blur(110px);opacity:.7}
+  .glow-a{width:560px;height:560px;left:50%;top:-160px;transform:translateX(-50%);
+    background:radial-gradient(circle,rgba(18,150,219,.16),transparent 65%)}
+  .glow-b{width:420px;height:420px;left:-140px;top:220px;
+    background:radial-gradient(circle,rgba(11,110,168,.09),transparent 65%)}
+  .glow-c{width:380px;height:380px;right:-120px;top:120px;
+    background:radial-gradient(circle,rgba(61,180,232,.08),transparent 65%)}
+  .orbit{position:absolute;left:50%;top:46%;border:1px dashed rgba(18,42,66,.09);border-radius:50%}
+  .orbit svg{position:absolute;inset:0;margin:auto;animation:spin 70s linear infinite}
+  .orbit-1{width:520px;height:520px;transform:translate(-50%,-50%)}
+  .orbit-2{width:820px;height:820px;transform:translate(-50%,-50%);opacity:.7}
+  .orbit-2 svg{animation-duration:110s;animation-direction:reverse}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .hero-inner{position:relative;z-index:1}
+  .hero-mark{
+    font-size:clamp(44px,6.5vw,84px);
+    font-weight:900;letter-spacing:.18em;text-indent:.18em;
+    color:var(--ink);line-height:1.1;
+  }
+  .hero h1{
+    margin:34px 0 22px;
+    font-size:clamp(42px,6.4vw,84px);
+    font-weight:900;line-height:1.12;
+  }
+  .bloom{
+    background:linear-gradient(120deg,var(--blue) 10%,var(--blue-deep) 60%,#0a5a8a);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .sub{
+    max-width:560px;margin:0 auto;color:var(--ink-2);font-size:18px;
+  }
+  .hero .sub-en{margin-top:10px;color:var(--ink-3);font-size:14px;letter-spacing:.04em}
+  /* 三个下载入口的层级（2026-10-09）。
+     语义分组：**前两个是同一产品的两个下载源**（完整版 · GitHub / R2），
+     **第三个是另一个产品**（Lite · App Store）。所以用一条分隔线把断层画出来，
+     不必读文字就知道"右边那个不是同一种东西"。
+       主站完整版   蓝实心—— 唯一主入口
+       备用下载源   白底蓝边 —— 与主站同源，一伙的
+       App Store    灰调描边 —— 不同产品，主动退后
+     三个 padding/字号统一，避免一个胖一个瘦。 */
+  .hero-cta{margin-top:44px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center}
+  .btn-alt{
+    color:var(--blue-deep);background:#fff;
+    border:1px solid rgba(18,150,219,.38);
+    padding:15px 30px;font-size:15px;font-weight:600;
+  }
+  .btn-alt:hover{border-color:var(--blue);background:rgba(18,150,219,.05);transform:translateY(-2px);box-shadow:0 8px 24px rgba(18,150,219,.14)}
+  /* App Store / Lite：灰调描边，与蓝调主站拉开距离 */
+  .btn-store{
+    color:var(--ink-2);background:#fff;
+    border:1px solid rgba(18,42,66,.16);
+    padding:15px 28px;font-size:15px;font-weight:600;
+  }
+  .btn-store:hover{border-color:rgba(18,42,66,.34);color:var(--ink);transform:translateY(-2px);box-shadow:0 8px 22px rgba(18,42,66,.08)}
+  /* 分组分隔线：把"两个源"与"另一个产品"在视觉上切开 */
+  .hero-sep{width:1px;height:26px;background:rgba(18,42,66,.14);margin:0 4px}
+  /* 窄屏下三个按钮会换行，分隔线会孤立在行首/行尾 —— 换行时它失去"分组"含义，
+     反而变成一条莫名其妙的竖线。索性在换行区间隐藏，靠按钮配色仍能分出两组。 */
+  @media (max-width:900px){ .hero-sep{display:none} }
+  .hero-note{
+    margin-top:46px;color:var(--ink-3);font-size:14px;letter-spacing:.05em;
+  }
+
+  @keyframes pulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+
+  /* ---------- 界面预览（轮播） ---------- */
+  .gallery{padding:80px 0 100px}
+  .car-viewport{
+    overflow:hidden;border-radius:var(--radius);
+    border:1px solid var(--line);background:var(--card);
+  }
+  .car-track{display:flex;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+  .car-page{
+    flex:0 0 100%;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    padding:18px;align-items:stretch;
+  }
+  .car-shot{margin:0;border-radius:12px;overflow:hidden;height:clamp(220px,25vw,380px);background:var(--bg-soft)}
+  .car-shot img{width:100%;height:100%;object-fit:cover;display:block}
+  .car-cap{
+    margin-top:18px;text-align:center;color:var(--ink-3);font-size:14px;
+    letter-spacing:.03em;min-height:1.7em;
+  }
+  .car-ctrl{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:14px}
+  .car-btn{
+    width:38px;height:38px;border-radius:50%;
+    border:1px solid rgba(18,42,66,.18);background:#fff;color:var(--ink-2);
+    font-size:15px;line-height:1;cursor:pointer;
+    transition:transform .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease;
+  }
+  .car-btn:hover{border-color:var(--blue);color:var(--blue-deep);transform:translateY(-1px);box-shadow:0 6px 16px var(--glow)}
+  .car-dots{display:flex;gap:9px}
+  .car-dot{
+    width:8px;height:8px;border-radius:50%;padding:0;border:none;cursor:pointer;
+    background:rgba(18,42,66,.18);transition:background .2s ease,transform .2s ease;
+  }
+  .car-dot.active{background:var(--blue);transform:scale(1.25)}
+
+  /* ---------- 它是什么（说明页文本） ---------- */
+  .about{padding:30px 0 100px}
+  .about-inner{max-width:760px;margin:0 auto;text-align:center;padding:0 32px}
+  .about-inner h2{font-size:clamp(30px,4.2vw,54px);font-weight:900;line-height:1.25}
+  .about-body{
+    margin-top:22px;color:var(--ink-2);font-size:17px;line-height:1.9;
+  }
+  .about-en{margin-top:14px;color:var(--ink-3);font-size:14px;letter-spacing:.04em}
+
+  /* ---------- 特性卡 ---------- */
+  .features{padding:20px 0 90px}
+  .sec-head{margin-bottom:46px}
+  .sec-head .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--blue-deep);letter-spacing:.18em;
+  }
+  .sec-head h2{margin-top:14px;font-size:clamp(28px,3.6vw,44px);font-weight:900}
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .feat-card{
+    position:relative;padding:34px 32px;border-radius:var(--radius);
+    border:1px solid var(--line);background:var(--card);
+    overflow:hidden;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+  }
+  .feat-card::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(18,150,219,.1),transparent 60%);
+    opacity:0;transition:opacity .25s ease;pointer-events:none;
+  }
+  .feat-card:hover{transform:translateY(-4px);border-color:rgba(18,150,219,.5);box-shadow:0 18px 44px rgba(18,42,66,.1)}
+  .feat-card:hover::before{opacity:1}
+  .feat-num{
+    font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--blue-deep);
+    letter-spacing:.2em;margin-bottom:18px;display:block;
+  }
+  .feat-card h3{font-size:21px;font-weight:800;margin-bottom:10px}
+  .feat-card p{color:var(--ink-2);font-size:15px}
+  .feat-card .feat-note{margin-top:12px;font-size:13px;color:var(--ink-3);line-height:1.7}
+  .feat-card .deco-dots{
+    position:absolute;right:26px;top:26px;opacity:.5;
+  }
+
+  /* ---------- 通用分区头 ---------- */
+  .sec-lead{
+    max-width:680px;margin:-24px 0 40px;color:var(--ink-2);font-size:16px;line-height:1.9;
+  }
+
+  /* ---------- 圆心动作 ---------- */
+  .hub{padding:20px 0 90px}
+  .hub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .hub-item{
+    display:flex;align-items:flex-start;gap:14px;
+    padding:18px 20px;border-radius:14px;
+    border:1px solid var(--line);background:var(--card);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .hub-item:hover{transform:translateY(-3px);border-color:rgba(18,150,219,.45);box-shadow:0 12px 28px rgba(18,42,66,.07)}
+  .hub-ico{
+    flex:none;width:34px;height:34px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;background:linear-gradient(140deg,var(--blue-light),var(--blue) 60%,var(--blue-deep));
+  }
+  .hub-ico svg{width:18px;height:18px}
+  .hub-txt{display:block;min-width:0}
+  .hub-txt b{display:block;font-size:15px;font-weight:700;line-height:1.5}
+  .hub-txt i{
+    display:block;margin-top:3px;font-style:normal;
+    color:var(--ink-3);font-size:13px;line-height:1.65;
+  }
+  .hub-foot,.tool-foot{
+    max-width:700px;margin:26px auto 0;text-align:center;
+    color:var(--ink-3);font-size:13px;line-height:1.8;
+  }
+
+  /* ---------- 内置工具 ---------- */
+  .tools{padding:20px 0 90px}
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .tool-card{
+    padding:30px 28px;border-radius:var(--radius);
+    border:1px solid var(--line);background:var(--card);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .tool-card:hover{transform:translateY(-4px);border-color:rgba(47,181,165,.55);box-shadow:0 14px 36px rgba(18,42,66,.08)}
+  .tool-ico{
+    display:flex;align-items:center;justify-content:center;
+    width:42px;height:42px;border-radius:12px;margin-bottom:18px;
+    color:#fff;background:linear-gradient(140deg,#35c2b1,#2FB5A5 55%,#1E9488);
+  }
+  .tool-ico svg{width:21px;height:21px}
+  .tool-card h3{font-size:18px;font-weight:800;margin-bottom:9px}
+  .tool-card p{color:var(--ink-2);font-size:14.5px;line-height:1.8}
+
+  /* ---------- 触发方式 ---------- */
+  .triggers{padding:0 0 90px}
+  .trig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .trig-card{
+    padding:32px;border-radius:var(--radius);text-align:center;
+    border:1px solid var(--line);background:var(--card);
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .trig-card:hover{transform:translateY(-4px);border-color:rgba(18,150,219,.5);box-shadow:0 14px 36px rgba(18,42,66,.08)}
+  .trig-card h3{font-size:18px;font-weight:800;margin:18px 0 6px}
+  .trig-card .trig-desc{color:var(--ink-3);font-size:13px;margin-bottom:20px}
+  .trig-keys{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+  .trig-keys .kbd{min-width:30px;height:30px;font-size:12px}
+  .tier-tag{
+    display:inline-block;margin-top:18px;padding:3px 12px;border-radius:999px;
+    font-size:12px;letter-spacing:.06em;color:var(--ink-3);
+    border:1px solid var(--line);background:var(--bg-soft);
+  }
+  .tier-tag.pro{
+    color:#8a6400;border-color:rgba(255,184,0,.5);
+    background:rgba(255,184,0,.14);
+  }
+  .trig-foot{
+    max-width:640px;margin:26px auto 0;text-align:center;
+    color:var(--ink-3);font-size:13px;line-height:1.8;
+  }
+
+  /* ---------- 价格 ---------- */
+  .pricing{padding:0 0 110px}
+  .price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;align-items:stretch}
+  .price-card{
+    position:relative;padding:32px 30px;border-radius:var(--radius);
+    border:1px solid var(--line);background:var(--card);
+    display:flex;flex-direction:column;
+    transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+  }
+  .price-card:hover{transform:translateY(-4px);border-color:rgba(18,150,219,.5);box-shadow:0 14px 36px rgba(18,42,66,.08)}
+  .price-card.best{
+    border-color:rgba(18,150,219,.55);
+    background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(18,150,219,.08),transparent),var(--card);
+  }
+  .price-tag{
+    position:absolute;top:-13px;right:24px;padding:4px 14px;border-radius:999px;
+    font-size:12px;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--blue-light),var(--blue));
+    box-shadow:0 4px 14px var(--glow);
+  }
+  .price-card h3{font-size:18px;font-weight:800}
+  .ch-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .ch-src{
+    font-size:12px;font-weight:600;letter-spacing:.02em;
+    color:var(--blue-deep);background:rgba(18,150,219,.09);
+    border:1px solid rgba(18,150,219,.22);
+    padding:3px 10px;border-radius:999px;white-space:nowrap;
+  }
+  /* 价格带：一行横排，按内容定高，不再三行堆叠 */
+  .ch-band{display:flex;align-items:baseline;gap:26px;flex-wrap:wrap;padding-bottom:4px}
+  .ch-band.alt{margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
+  .ch-item{display:inline-flex;align-items:baseline;gap:6px}
+  .ch-num{
+    font-family:"JetBrains Mono",monospace;font-weight:600;
+    color:var(--ink);font-size:22px;line-height:1.2;
+  }
+  .ch-num.alt{color:var(--blue-deep)}
+  /* 非数字那行（如「下载即享」）不用等宽字体，中文更稳，字号略收一档配平 */
+  .ch-num.word{
+    font-family:"Noto Sans SC",-apple-system,"PingFang SC",sans-serif;
+    font-size:19px;font-weight:700;letter-spacing:.02em;
+  }
+  .ch-unit{color:var(--ink-3);font-size:13px}
+  /* 划线原价：跟在现价后面，比 ch-unit 略大一点点，视觉上才不像被漏掉的标签 */
+  .ch-was{color:var(--ink-3);font-size:14px;text-decoration:line-through;margin-left:2px}
+  .ch-note{margin-top:16px;color:var(--ink-3);font-size:13px;line-height:1.8}
+  .ch-note b{color:var(--ink-2);font-weight:700}
+  .ch-go{
+    display:inline-block;margin-top:auto;padding-top:14px;
+    font-size:14px;font-weight:600;color:var(--blue-deep);align-self:flex-start;
+  }
+  .ch-go:hover{color:var(--blue)}
+
+  /* ---------- 功能对比表 ---------- */
+  .cmp{margin-top:56px}
+  .cmp-title{font-size:20px;font-weight:800;margin-bottom:18px}
+  .cmp-hint{
+    max-width:760px;margin-top:26px;color:var(--ink-2);font-size:15px;line-height:1.9;
+  }
+  .cmp-wrap{
+    border:1px solid rgba(18,42,66,.12);border-radius:var(--radius);
+    overflow:hidden;overflow-x:auto;background:var(--card);
+  }
+  .cmp-table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+  .cmp-table th,.cmp-table td{padding:14px 20px;text-align:left;border-bottom:1px solid var(--line)}
+  .cmp-table thead th{
+    background:var(--bg-soft);font-size:13px;letter-spacing:.08em;
+    color:var(--ink-2);font-weight:700;
+  }
+  .cmp-table th:nth-child(2),.cmp-table td:nth-child(2),
+  .cmp-table th:nth-child(3),.cmp-table td:nth-child(3){text-align:center;width:150px}
+  .cmp-table .yes{color:var(--blue);font-weight:700}
+  .cmp-table .no{color:var(--ink-3)}
+  .cmp-table tbody tr:last-child td{border-bottom:none}
+
+  /* ---------- 下载区 ---------- */
+  .download{padding:0 0 110px}
+  .dl-panel{
+    position:relative;border-radius:30px;overflow:hidden;text-align:center;
+    border:1px solid rgba(18,150,219,.35);
+    background:
+      radial-gradient(ellipse 80% 120% at 50% -20%,rgba(18,150,219,.13),transparent 60%),
+      var(--bg-soft);
+    padding:86px 40px 80px;
+  }
+  .dl-panel::after{
+    content:"";position:absolute;left:50%;top:-90px;width:520px;height:180px;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse,rgba(61,180,232,.22),transparent 70%);
+    filter:blur(50px);pointer-events:none;
+  }
+  .dl-panel h2{font-size:clamp(30px,4vw,48px);font-weight:900}
+  .dl-panel .dl-sub{color:var(--ink-2);margin-top:14px}
+  .dl-cta{margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+  .dl-meta{
+    margin-top:30px;color:var(--ink-3);font-size:13px;letter-spacing:.04em;
+    display:flex;gap:22px;justify-content:center;flex-wrap:wrap;
+  }
+  .dl-meta span{display:inline-flex;align-items:center;gap:8px}
+  .dl-meta .dot{width:5px;height:5px}
+  /* 备用下载通道（Cloudflare R2）。刻意做得比主按钮弱一档——它是兜底不是主入口。
+     ⚠️ 公共访问开通后：把下面第一行的 `display:none` 删掉即可显示（JS 会填好 URL）。
+     ⚠️ 别同时留两个 display —— 后一个会覆盖前一个（写这行时踩过）。 */
+  .dl-alt{margin-top:18px;color:var(--ink-3);font-size:13px;letter-spacing:.04em;
+    display:none;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap}
+  .dl-alt-label{opacity:.85}
+  .dl-alt-link{color:var(--blue-deep);text-decoration:none;border-bottom:1px solid rgba(18,150,219,.32);
+    padding-bottom:1px;transition:border-color .18s ease,color .18s ease}
+  .dl-alt-link:hover{border-bottom-color:var(--blue)}
+  .dl-alt-sep{opacity:.5}
+
+  footer{border-top:1px solid var(--line);padding:34px 0 44px}
+  .foot-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .foot-inner .brand{font-size:12px;color:var(--ink-3)}
+  .foot-inner p{color:var(--ink-3);font-size:13px}
+
+  @media (max-width:900px){
+    .feat-grid,.trig-grid,.price-grid,.tool-grid{grid-template-columns:1fr}
+    .hub-grid{grid-template-columns:1fr}
+    .car-page{grid-template-columns:1fr;padding:14px}
+    .car-shot{height:clamp(200px,52vw,320px)}
+    .cmp-wrap{border-radius:14px}
+    .nav-links{display:none}
+    .hero{padding:130px 0 80px}
+    .sec-lead{margin-top:-12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 顶部公告条：同厂出品（引流 Clothespeg） ============
+     口径：公告条只留一个出口 → Clothespeg 主页（clothespeg-site.pages.dev，CF 国内访问稳）；
+     GitHub 仓库入口收在 Clothespeg 主页里，公告条不直接甩 GitHub 链接。
+     utm 参数别丢——Clothespeg 侧靠它统计这条入口带来的流量。 -->
+<div class="topbar" id="topbar">
+  <a href="https://clothespeg-site.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">
+    <span>作者另一款 APP —— <b>Clothespeg：免费优雅的剪贴板 + 便签工具</b></span>
+    <span class="promo-arrow" aria-hidden="true">→</span>
+  </a>
+  <button class="topbar-close" id="topbarClose" aria-label="关闭公告条" title="关闭">✕</button>
+</div>
+
+<!-- ============ 导航 ============ -->
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="Flyring">
+      <svg viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+      FLYRING
+    </a>
+    <div class="nav-links">
+      <a href="#shots">界面</a>
+      <a href="#features">特性</a>
+      <a href="#hub">圆心动作</a>
+      <a href="#tools">内置工具</a>
+      <a href="#triggers">触发</a>
+      <a href="#pricing">价格</a>
+      <a href="#download">下载</a>
+    </div>
+    <a class="nav-cta" href="#pricing">获取 Flyring</a>
+  </div>
+</nav>
+
+<!-- ============ Hero ============ -->
+<header class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="glow-blob glow-a"></div>
+    <div class="glow-blob glow-b"></div>
+    <div class="glow-blob glow-c"></div>
+    <div class="orbit orbit-1">
+      <svg width="520" height="520" viewBox="0 0 520 520" fill="none">
+        <g fill="#1296db" opacity=".6">
+          <circle cx="260" cy="14" r="4"/><circle cx="457" cy="137" r="3.4"/><circle cx="457" cy="383" r="4.6"/>
+          <circle cx="260" cy="506" r="3.4"/><circle cx="63" cy="383" r="4.2"/><circle cx="63" cy="137" r="3.6"/>
+        </g>
+      </svg>
+    </div>
+    <div class="orbit orbit-2">
+      <svg width="820" height="820" viewBox="0 0 820 820" fill="none">
+        <g fill="#0b6ea8" opacity=".45">
+          <circle cx="410" cy="12" r="3.4"/><circle cx="719" cy="205" r="2.8"/><circle cx="719" cy="615" r="3.6"/>
+          <circle cx="410" cy="808" r="2.8"/><circle cx="101" cy="615" r="3.2"/><circle cx="101" cy="205" r="3"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-mark">FLYRING</div>
+    <h1>应用切换，<span class="bloom">如此简单</span></h1>
+    <p class="sub">不是 Spotlight，不是 Launchpad，也不是 Dock 的替代品。Flyring 是当你想切 App 时，恰好出现在光标旁的那个小面板。</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://github.com/saodisir/flyring/releases/latest" target="_blank" rel="noopener">下载完整版 · 14 天全功能试用</a>
+      <a class="btn btn-alt" href="#" data-alt-href target="_blank" rel="noopener">备用下载源</a>
+      <span class="hero-sep" aria-hidden="true"></span>
+      <a class="btn btn-store" href="#" onclick="return flyringNotice(event, 'App Store 版正在上架中，敬请期待')">App Store · Lite 版（免费）</a>
+    </div>
+    <p class="hero-note">圆环、网格、放射线三种形态　·　键盘快捷键、鼠标与触控板皆可唤起</p>
+  </div>
+</header>
+
+<!-- ============ 界面预览（轮播） ============ -->
+<section class="gallery" id="shots">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">SCREENSHOTS · 界面预览</span>
+      <h2>它长这样</h2>
+    </div>
+    <div class="reveal">
+      <div class="car-viewport">
+        <div class="car-track" id="carTrack">
+          <div class="car-page">
+            <figure class="car-shot"><img src="shots/surface-ring.jpg" alt="环形面板"></figure>
+            <figure class="car-shot"><img src="shots/surface-grid.jpg" alt="网格面板"></figure>
+            <figure class="car-shot"><img src="shots/surface-fingers.jpg" alt="放射线面板"></figure>
+          </div>
+          <div class="car-page">
+            <figure class="car-shot"><img src="shots/settings-custom.jpg" alt="面板自定义设置"></figure>
+            <figure class="car-shot"><img src="shots/settings-apps.jpg" alt="自定义应用列表"></figure>
+            <figure class="car-shot"><img src="shots/settings-about.jpg" alt="关于页"></figure>
+          </div>
+        </div>
+      </div>
+      <p class="car-cap" id="carCap">环形 · 网格 · 放射线 —— 三种形态，随时切换</p>
+      <div class="car-ctrl">
+        <button class="car-btn" id="carPrev" aria-label="上一页">←</button>
+        <div class="car-dots" id="carDots">
+          <button class="car-dot active" aria-label="第 1 页"></button>
+          <button class="car-dot" aria-label="第 2 页"></button>
+        </div>
+        <button class="car-btn" id="carNext" aria-label="下一页">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 它是什么（说明页文本） ============ -->
+<section class="about" id="about">
+  <div class="about-inner reveal">
+    <h2>让启动器长在你的<span class="bloom">指尖上</span></h2>
+    <p class="about-body">按下快捷键，启动面板贴着光标弹出来。手不用挪，事不用停。</p>
+    <p class="about-en">A launcher that blooms at your cursor.</p>
+  </div>
+</section>
+
+<!-- ============ 特性 ============ -->
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">FEATURES · 特性</span>
+      <h2>它能干什么</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+        <span class="feat-num">01</span>
+        <h3>光标旁弹出</h3>
+        <p>面板出现在光标旁边，视线不必横穿屏幕去寻 Dock 和启动台。近，是优雅的前提。</p>
+      </div>
+      <div class="feat-card reveal">
+        <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+        <span class="feat-num">02</span>
+        <h3>三种形态</h3>
+        <p>圆环、网格、放射线，形态服务于场合，随时切换，不必将就。</p>
+      </div>
+      <div class="feat-card reveal">
+        <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+        <span class="feat-num">03</span>
+        <h3>三种唤起，各取所需</h3>
+        <p>键盘、鼠标、触控板，三条通路皆可唤起面板。习惯什么，就用什么。</p>
+        <p class="feat-note">Lite 版只有键盘快捷键 —— 另两条要系统权限，沙盒给不了。</p>
+      </div>
+      <div class="feat-card reveal">
+        <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+        <span class="feat-num">04</span>
+        <h3>两个独立面板</h3>
+        <p>自定义收藏面板，运行中的 App 面板，各自独立。悬停还能看出一个 App 开了几个窗口。</p>
+      </div>
+      <div class="feat-card reveal">
+        <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+        <span class="feat-num">05</span>
+        <h3>不止是 App</h3>
+        <p>文件夹、网页、文件、macos快捷指令、内置小工具、内置系统动作，皆可收入面板。点一下，直达。</p>
+      </div>
+      <div class="feat-card reveal">
+        <svg class="deco-dots" width="42" height="42" viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+        <span class="feat-num">06</span>
+        <h3>面板正中的按钮</h3>
+        <p>圆心不只是 App 列表的中心 —— 它是一块快捷动作区，14 种系统动作随你挑。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 圆心动作 ============ -->
+<section class="hub" id="hub">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">HUB ACTIONS · 圆心动作</span>
+      <h2>面板正中，14 种系统动作</h2>
+    </div>
+    <p class="sec-lead reveal">这些不走「打开某个应用」，而是直接执行一件事。放进面板的圆心，或作为一条动作条目放到自定义面板里，点一下就生效。</p>
+    <div class="hub-grid reveal">
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16"/><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M9 20v1M15 20v1"/></svg></span><span class="hub-txt"><b>全部最小化</b><i>一键清空桌面，Win+D 的手感</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="12" height="12" rx="2"/><rect x="9" y="9" width="12" height="12" rx="2"/></svg></span><span class="hub-txt"><b>只留当前窗口</b><i>保留手头这个，其余全部收起</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg></span><span class="hub-txt"><b>清空废纸篓</b><i>腾地方，不用翻 Finder</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="hub-txt"><b>关闭所有应用</b><i>收工前的总闸</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><span class="hub-txt"><b>息屏</b><i>只关显示器，电脑照跑</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 019.5 3.5a8.5 8.5 0 1011 11z"/></svg></span><span class="hub-txt"><b>系统睡眠</b><i>整机睡，唤醒即回到原处</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M6 21h12M9 18l3 3 3-3"/></svg></span><span class="hub-txt"><b>启动屏保</b><i>走之前让它先转起来</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg></span><span class="hub-txt"><b>锁屏</b><i>起身离开，顺手一按</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12l-1 8H7L6 4z"/><path d="M7 12v2M17 12v2M10 16h4"/></svg></span><span class="hub-txt"><b>屏幕常亮</b><i>演示、看长文时不让它睡</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg></span><span class="hub-txt"><b>静音切换</b><i>状态型：静音了图标就变样</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17v5M8.5 3.5l1.2 3.6 3.6 1.2-3.6 1.2-1.2 3.6-1.2-3.6L3.7 8.3l3.6-1.2 1.2-3.6z"/><path d="M18 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z"/></svg></span><span class="hub-txt"><b>钉住面板</b><i>钉住后不随手收起，可连续切换应用</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M8 13h8M8 16.5h5"/></svg></span><span class="hub-txt"><b>显示 / 隐藏桌面图标</b><i>桌面内容一键隐藏</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M8 8v5M6 10.5h4"/></svg></span><span class="hub-txt"><b>显示隐藏文件</b><i>等价于 Finder 的 ⌘⇧.</i></span></div>
+      <div class="hub-item"><span class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg></span><span class="hub-txt"><b>锁定键盘</b><i>吞掉全部按键方便擦键盘，鼠标照常，连按 Esc 五次解锁</i></span></div>
+    </div>
+    <p class="hub-foot reveal">Lite版圆心最多添加 2 个、完整版 4 个，自定义列表面板里Lite版最多添加 2 条、完整版不限。</p>
+  </div>
+</section>
+
+<!-- ============ 内置工具 ============ -->
+<section class="tools" id="tools">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">BUILT-IN TOOLS · 内置工具</span>
+      <h2>五个小工具，满足常用需求</h2>
+    </div>
+    <p class="sec-lead reveal">内置 5 个常用工具，不用另装，满足最基本的需求。</p>
+    <div class="tool-grid reveal">
+      <div class="tool-card">
+        <span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M8.5 8.5h7M8.5 12h7M8.5 15.5h4"/></svg></span>
+        <h3>便签</h3>
+        <p>随手记文字与图片。写得开就摆在桌面上，写完了收走。</p>
+      </div>
+      <div class="tool-card">
+        <span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h11a2 2 0 012 2v11a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M16 4v4H6V6a2 2 0 012-2h2M9 12h7M9 15.5h4"/></svg></span>
+        <h3>剪贴板</h3>
+        <p>系统剪贴板的历史，文字图片分开归类，可搜索。复制过的东西不用再复制一遍。</p>
+      </div>
+      <div class="tool-card">
+        <span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14a4 4 0 100-8 4 4 0 000 8z"/><path d="M12 14v3M5.5 12H8M16 12h2.5"/><path d="M4 20a8 8 0 0116 0"/></svg></span>
+        <h3>系统监控</h3>
+        <p>CPU、内存、电池、磁盘、网络的实时仪表板，一扇窗看完。</p>
+      </div>
+      <div class="tool-card">
+        <span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg></span>
+        <h3>番茄钟</h3>
+        <p>专注与休息的循环计时，到点有铃声。计时中屏幕自动常亮。</p>
+      </div>
+      <div class="tool-card">
+        <span class="tool-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l5-14 5 9 3-5 3 10H4z"/></svg></span>
+        <h3>文件隐身</h3>
+        <p>把个别文件在 Finder 里藏起来或放出来，一个文件一个文件地来。文件还在原处，不搬家。</p>
+      </div>
+    </div>
+    <p class="tool-foot reveal">五个工具Lite版最多添加 2 个，完整版不限。</p>
+  </div>
+</section>
+
+<!-- ============ 触发方式 ============ -->
+<section class="triggers" id="triggers">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">TRIGGERS · 触发</span>
+      <h2>键盘、鼠标、触控板，皆可唤起</h2>
+    </div>
+    <div class="trig-grid">
+      <div class="trig-card reveal">
+        <h3>键盘</h3>
+        <p class="trig-desc">快捷键自定义，录制即用</p>
+        <div class="trig-keys"><span class="kbd">⌃</span><span class="kbd">⌥</span><span class="kbd">F</span></div>
+        <p class="tier-tag">Lite / 完整版</p>
+      </div>
+      <div class="trig-card reveal">
+        <h3>鼠标</h3>
+        <p class="trig-desc">录制即用，自由安排</p>
+        <div class="trig-keys"><span class="kbd">中键</span><span class="kbd">侧键</span><span class="kbd">长按</span></div>
+        <p class="tier-tag pro">仅完整版</p>
+      </div>
+      <div class="trig-card reveal">
+        <h3>触控板</h3>
+        <p class="trig-desc">轻点或双击，手势可换</p>
+        <div class="trig-keys"><span class="kbd">3 指轻点</span><span class="kbd">4 指轻点</span><span class="kbd">双击</span></div>
+        <p class="tier-tag pro">仅完整版</p>
+      </div>
+    </div>
+    <p class="trig-foot reveal">鼠标与触控板唤起要用辅助功能与输入监控权限，App Store 无法不提供。</p>
+  </div>
+</section>
+
+<!-- ============ 价格 ============ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">PRICING · 价格</span>
+      <h2>Lite 免费，完整版买断为主</h2>
+    </div>
+    <div class="price-grid">
+      <div class="price-card reveal">
+        <div class="ch-head">
+          <h3>Lite 版</h3>
+          <span class="ch-src">App Store</span>
+        </div>
+        <div class="ch-band">
+          <span class="ch-item"><span class="ch-num">¥0</span><span class="ch-unit">免费</span></span>
+        </div>
+        <div class="ch-band alt">
+          <span class="ch-item"><span class="ch-num alt word">永久可用</span><span class="ch-unit">不需要账号</span></span>
+        </div>
+        <p class="ch-note">Mac App Store 版即将上架。<b>永久免费，不会过期</b>。受 App Store 沙盒限制，只能提供基础功能 —— 触控板手势、鼠标唤起、悬停直达窗口等功能，无法实现。</p>
+        <a class="ch-go" href="#" onclick="return flyringNotice(event, 'App Store 版正在上架中，敬请期待')">前往下载</a>
+      </div>
+      <div class="price-card best reveal">
+        <span class="price-tag">首发 ¥49</span>
+        <div class="ch-head">
+          <h3>完整版</h3>
+          <span class="ch-src">官网直发</span>
+        </div>
+        <div class="ch-band">
+          <span class="ch-item"><span class="ch-num">¥49</span><span class="ch-unit">买断</span><span class="ch-was">¥58</span></span>
+          <span class="ch-item"><span class="ch-num">¥29</span><span class="ch-unit">/ 年</span></span>
+        </div>
+        <div class="ch-band alt">
+          <span class="ch-item"><span class="ch-num alt">14 天</span><span class="ch-unit">免费体验全功能</span></span>
+        </div>
+        <p class="ch-note">全部功能，后续新功能都在这里。<b>一份授权含 3 台 Mac</b>，换机器可在设备管理页自助解绑、不需要旧机器在手。<b>7 天无理由退款</b>。试用到期降为 Lite 版，免费继续用。</p>
+        <a class="ch-go" href="#download">前往下载</a>
+      </div>
+    </div>
+    <p class="cmp-hint reveal">下面 13 项是两版的全部差异。除此之外的一切 —— 三种形态、两个独立面板、主题与动画、面板尺寸圆角透明度，以及便签 / 剪贴板 / 系统监控 / 番茄钟 / 文件隐身这五个内置工具、快捷动作池 —— 两版完全一致。</p>
+    <div class="cmp reveal">
+      <h3 class="cmp-title">两版功能对比</h3>
+      <div class="cmp-wrap">
+        <table class="cmp-table">
+          <thead>
+            <tr><th>功能</th><th>Lite 版</th><th>完整版</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>触控板手势唤起（多指轻点 / 双击）</td><td class="no">—</td><td class="yes">✓</td></tr>
+            <tr><td>鼠标唤起（任意键 / 双击 / 长按，可录制）</td><td class="no">—</td><td class="yes">✓</td></tr>
+            <tr><td>悬停直达窗口（悬停即出该 App 的窗口列表）</td><td class="no">—</td><td class="yes">✓</td></tr>
+            <tr><td>自定义 App 显示名称</td><td class="no">—</td><td class="yes">✓</td></tr>
+            <tr><td>退出 App（拖出面板 / 右键菜单）</td><td class="no">—</td><td class="yes">✓</td></tr>
+            <tr><td>收藏条目总数</td><td>12</td><td>24</td></tr>
+            <tr><td>运行中列表显示条数</td><td>12</td><td>24</td></tr>
+            <tr><td>圆心快捷动作</td><td>最多用 2 个</td><td>最多用 4 个</td></tr>
+            <tr><td>列表里的快捷动作条目</td><td>最多 2 条</td><td>不限</td></tr>
+            <tr><td>内置工具条目</td><td>最多 2 个</td><td>不限</td></tr>
+            <tr><td>打开提示音</td><td>3 个</td><td>14 个系统音</td></tr>
+            <tr><td>网格 App 名称显示</td><td>固定图标下方</td><td>图标下方 / 悬浮显示</td></tr>
+            <tr><td>更新方式</td><td>App Store 自动更新</td><td>应用内检查更新</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 下载 ============ -->
+<section class="download" id="download">
+  <div class="wrap">
+    <div class="dl-panel reveal">
+      <h2>为效率而生</h2>
+      <p class="dl-sub">拖入「应用程序」即可使用。常驻后台，显示与否自行决定。</p>
+      <div class="dl-cta">
+        <!-- 主下载走 GitHub releases/latest：**Release 上传后自动指向最新版，无需改**。
+             备用通道（R2）见下方 .dl-alt —— GitHub 在国内时通时不通，
+             已付费用户下载不到包是最伤的失败方式，所以给一条不依赖 GitHub 的路。 -->
+        <a class="btn btn-primary" href="https://github.com/saodisir/flyring/releases/latest" target="_blank" rel="noopener">下载完整版 · 14 天全功能试用</a>
+        <a class="btn btn-store" href="#" onclick="return flyringNotice(event, 'App Store 版正在上架中，敬请期待')">App Store · Lite 版（免费）</a>
+      </div>
+      <!-- 备用下载通道（R2）。⚠️ FLYRING_DL_BASE 一旦开通公共访问，把下面的
+           href 换成 https://pub-xxxx.r2.dev/Flyring-<版本>.dmg，并把 data-alt
+           的 display:none 去掉即可上线；不发版时两个链接都不用改（latest 形式）。
+           R2 出网流量永久免费，所以这条通道不会产生流量成本。 -->
+      <div class="dl-alt" data-alt>
+        <span class="dl-alt-label">下载慢或打不开？</span>
+        <a class="dl-alt-link" href="#" data-alt-href>换个源下载</a>
+        <span class="dl-alt-sep" aria-hidden="true">·</span>
+        <a class="dl-alt-link" href="#" data-alt-sha>校验文件</a>
+      </div>
+      <div class="dl-meta">
+        <span><span class="dot"></span>macOS 14+</span>
+        <span><span class="dot"></span>Apple Silicon · Intel 通用</span>
+        <span><span class="dot"></span>免安装拖入 Applications</span>
+        <span><span class="dot"></span>一份授权含 3 台 Mac</span>
+        <span><span class="dot"></span>7 天无理由退款</span>
+        <span><span class="dot"></span>试用到期降为 Lite 形态</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <a class="brand" href="#top" aria-label="回到顶部">
+      <svg viewBox="0 0 200 200" fill="none" aria-hidden="true"><g fill="#1296db" opacity=".75"><circle cx="100" cy="100" r="19.2"/><circle cx="100" cy="45" r="19.2"/><circle cx="147.6" cy="72.5" r="19.2"/><circle cx="147.6" cy="127.5" r="19.2"/><circle cx="100" cy="155" r="19.2"/><circle cx="52.4" cy="127.5" r="19.2"/><circle cx="52.4" cy="72.5" r="19.2"/></g></svg>
+      FLYRING
+    </a>
+    <div style="text-align:right">
+      <p style="display:flex;gap:18px;justify-content:flex-end;margin:0 0 6px">
+        <!-- 互挂引流（与 Clothespeg 主页页脚对称）。跳 Clothespeg 主页（CF 稳定），
+             GitHub 入口在 Clothespeg 主页里。正式域名定了以后换 href。 -->
+        <a href="https://clothespeg-site.pages.dev/?utm_source=flyring&utm_medium=website&utm_campaign=cross-promo" target="_blank" rel="noopener">免费小工具 · Clothespeg ↗</a>
+        <a href="legal/terms.html">服务条款</a>
+        <a href="legal/refund.html">退款政策</a>
+      </p>
+      <p>© 2026 Flyring · 让启动器长在你的指尖上</p>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<style>
+  .toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(16px);background:#1d1d1f;color:#fff;padding:11px 20px;border-radius:999px;font-size:13px;line-height:1.5;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:999;max-width:82vw;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 未开放入口：统一提示（文案由调用处传入） ---------- */
+  window.flyringNotice = function(ev, msg){
+    if(ev) ev.preventDefault();
+    var t = document.getElementById("toast");
+    t.textContent = msg || "上线测试中，敬请期待";
+    t.classList.add("show");
+    clearTimeout(t._h);
+    t._h = setTimeout(function(){ t.classList.remove("show"); }, 2800);
+    return false;
+  };
+
+  /* ---------- 顶部公告条：关闭后本次会话不再出现 ---------- */
+  var topbarClose = document.getElementById("topbarClose");
+  if (topbarClose) {
+    try {
+      if (sessionStorage.getItem("promoOff") === "1") {
+        document.body.classList.add("promo-off");
+      }
+    } catch(e){}
+    topbarClose.addEventListener("click", function(){
+      document.body.classList.add("promo-off");
+      try { sessionStorage.setItem("promoOff", "1"); } catch(e){}
+    });
+  }
+
+  /* ---------- 滚动入场 ---------- */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  },{threshold:.12});
+  document.querySelectorAll(".reveal").forEach(function(el,i){
+    el.style.transitionDelay = (i % 4) * 70 + "ms";
+    io.observe(el);
+  });
+
+  /* ---------- 界面预览轮播 ---------- */
+  var track = document.getElementById("carTrack");
+  if (track) {
+    var pages = track.children.length;
+    var cap = document.getElementById("carCap");
+    var dots = Array.prototype.slice.call(document.querySelectorAll("#carDots .car-dot"));
+    var caps = [
+      "环形 · 网格 · 放射线 —— 三种形态，随时切换",
+      "自定义面板 · 自定义应用 · 关于 —— 想要的都在设置里"
+    ];
+    var carCur = 0;
+    var carGo = function(i){
+      carCur = (i + pages) % pages;
+      track.style.transform = "translateX(-" + (carCur * 100) + "%)";
+      dots.forEach(function(d, k){ d.classList.toggle("active", k === carCur); });
+      if (cap && caps[carCur]) cap.textContent = caps[carCur];
+    };
+    document.getElementById("carPrev").addEventListener("click", function(){ carGo(carCur - 1); });
+    document.getElementById("carNext").addEventListener("click", function(){ carGo(carCur + 1); });
+    dots.forEach(function(d, k){ d.addEventListener("click", function(){ carGo(k); }); });
+    /* 触摸滑动翻页 */
+    var carX = null;
+    track.addEventListener("touchstart", function(e){ carX = e.touches[0].clientX; }, {passive:true});
+    track.addEventListener("touchend", function(e){
+      if (carX === null) return;
+      var dx = e.changedTouches[0].clientX - carX;
+      if (Math.abs(dx) > 40) carGo(carCur + (dx < 0 ? 1 : -1));
+      carX = null;
+    }, {passive:true});
+  }
+
+  /* ---------- 特性卡：光斑跟随 ---------- */
+  document.querySelectorAll(".feat-card").forEach(function(card){
+    card.addEventListener("mousemove", function(ev){
+      var r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", (ev.clientX - r.left) + "px");
+      card.style.setProperty("--my", (ev.clientY - r.top) + "px");
+    });
+  });
+
+  /* ---------- 备用下载通道（R2）----------
+     GitHub 在国内时通时不通，而已付费用户下载不到包是最伤的失败方式。
+     所以给一条不依赖 GitHub 的路：Cloudflare R2（**出网流量永久免费**，不限量不计费）。
+
+     ⚠️ ⚠️ **Sparkle 自动更新仍必须走 GitHub** —— SUFeedURL 与 appcast 的 enclosure
+     都硬编码在 app 里，R2 替代不了。所以这是**兜底**，不是主入口：
+     更新走 GitHub、官网首装下载走 R2，两者分工不是主备。
+
+     ⚠️ 换版时只改下面两个常量（域名由 Cloudflare 随机分配，别猜）：
+       DL_BASE     = R2 控制台 > flyring-dl > Public access 里显示的 r2.dev 地址
+       ALT_VERSION = 当前版本号（拼直链用）
+     为什么用 JS 填而不是直接写 href：域名写死在 HTML 里，换账号/重建 bucket
+     就会静默指向错地址；集中在这里改一处，且「域名没配」时有明确降级（保持隐藏）。 */
+  var DL_BASE = "https://pub-dba38fbc252345628835f13d6cbfec44.r2.dev";
+  var ALT_VERSION = "1.3.0";
+  if (DL_BASE && ALT_VERSION) {
+    var file = "Flyring-" + ALT_VERSION + ".dmg";
+    /* ⚠️ 必须用 querySelectorAll 而不是 querySelector：**备用通道在页面上出现两次**
+       （首屏按钮 + 页尾那行），querySelector 只返回第一个 —— 按 DOM 顺序正好是页尾，
+       于是首屏按钮会永远保持 href="#"，点了没反应。那是最不能坏的地方。 */
+    document.querySelectorAll("[data-alt-href]").forEach(function(a){
+      a.href = DL_BASE + "/" + file;
+    });
+    document.querySelectorAll("[data-alt-sha]").forEach(function(a){
+      a.href = DL_BASE + "/" + file + ".sha256";
+    });
+    /* 页尾那条备用通道行在 CSS 里默认 display:none，域名没配就不露坏链接。 */
+    var box = document.querySelector("[data-alt]");
+    if (box) box.style.display = "flex";
+  }
+})();
+</script>
+</body>
+</html>
