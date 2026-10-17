@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
         <item>
+            <title>Flyring 1.3.0</title>
+            <pubDate>Sat, 17 Oct 2026 13:40:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.3.0：</p><ul><li>新增：圆心动作「麦克风静音」——一键翻转系统默认输入设备的静音状态，与「静音切换」（扬声器）互补；不需要麦克风权限</li><li>新增：「正在运行」列表合并同名进程（Pro）——同一 App 的多个进程合并为一条，悬停展开各进程窗口，不再一排重复图标；精简版维持逐进程并列</li><li>优化：拖出关闭拆成两问——退出整个 App 与关闭单个窗口分开判定，Finder 等排除名单里的 App 现在允许拖出关闭单个窗口</li><li>改版：设置页引入 Claude 设计系统（CDS）——暖灰纸面、钴蓝强调色、按钮统一胶囊、侧栏选中态改实心钴蓝胶囊；「驻留时长」收为一行</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.3.0/Flyring-1.3.0.dmg"
+                       sparkle:version="55"
+                       sparkle:shortVersionString="1.3.0"
+                       type="application/octet-stream"
+                       sparkle:edSignature="hr+a7Ms3kucg2HtXte+aVtF8j3rLnejFeR+GX8eTfD7w7OwwvqIFA6uhq4Iq9T7fLJyQkZQBq8uspS1UUpX5BA=="
+                       length="5336779"/>
+        </item>
+        <item>
             <title>Flyring 1.2.4</title>
             <pubDate>Wed, 15 Oct 2026 12:24:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -79,6 +91,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: FuJXdAxt96TgllOJrlpyRBC7EODIR9b0pze64IPkcLBYT7+hl59gYPM6cHuRPhJvaIV1eoDOhXNRu3wpIhrHBw==
-length: 7637
+edSignature: dIaOjexO6HfEie+w3P69oCtysd0xSjJ7zfsAEWMFAZMtR7jd46y0/CPskDAmHdFg0ovjCoj0wbYEP9ucFtbQBg==
+length: 9122
 -->
