@@ -978,7 +978,7 @@
      为什么用 JS 填而不是直接写 href：域名写死在 HTML 里，换账号/重建 bucket
      就会静默指向错地址；集中在这里改一处，且「域名没配」时有明确降级（保持隐藏）。 */
   var DL_BASE = "https://pub-dba38fbc252345628835f13d6cbfec44.r2.dev";
-  var ALT_VERSION = "1.0.0";
+  var ALT_VERSION = "1.3.0";
   if (DL_BASE && ALT_VERSION) {
     var file = "Flyring-" + ALT_VERSION + ".dmg";
     /* ⚠️ 必须用 querySelectorAll 而不是 querySelector：**备用通道在页面上出现两次**
