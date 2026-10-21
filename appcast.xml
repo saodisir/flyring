@@ -4,7 +4,19 @@
         <title>Flyring</title>
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
-                <item>
+                                <item>
+            <title>Flyring 1.4.1</title>
+            <pubDate>Wed, 21 Oct 2026 03:13:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.4.1：</p><ul><li>修复：「正在运行」里同一个 App 出现两个一模一样的图标、点哪条都跳到同一个窗口——企业微信这类会额外起一个同名实例、而那个实例一扇窗都没有的 App，不再为它多出一条空条目</li><li>修复：悬停弹出的窗口列表移开鼠标后不消失——现在鼠标离开列表、也没回到那个图标，约半秒后自动收起（原来只有点面板外或关面板才会收）</li><li>修复：窗口列表开着时，面板里另一个 App 一直亮着蓝底——列表可见期间面板不再显示悬停高亮，避免鼠标移向列表时把最后划过的那个图标冻住</li><li>优化：绿底（可下钻）的口径统一为「悬停真的会弹出窗口列表」。并列档里已经拆到窗口的条目不再显示绿底——原来会绿，但悬停什么也弹不出来</li><li>调整：设置页归属——「并列 / 合并」移到「自动列表」页（只对自动列表生效）；「呼出修饰键 / 驻留时长 / 鼠标录制器」留在「窗口操作」页</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.4.1/Flyring-1.4.1.dmg"
+                       sparkle:version="57"
+                       sparkle:shortVersionString="1.4.1"
+                       type="application/octet-stream"
+                       sparkle:edSignature="7BT43CcJ/rtxcvOQ8on0hRcAwEZPEMZ3rIlg8tFBEny0Bk30Sx8j3uLYrn9yml77ZfGBSnAQMbd7OWDc3EujBA=="
+                       length="5367234"/>
+        </item>
+<item>
             <title>Flyring 1.4.0</title>
             <pubDate>Tue, 20 Oct 2026 00:39:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -103,6 +115,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: bwhQizuOhaUgnEzLVqlz/yOpLIz62PnFBCE2xcxb8BV3KM8eJfp6CMuRRInXpc2QVrNBe9s5m6xrcHyisLkFAA==
-length: 10749
+edSignature: nYxtFjPmQJZp5VMh0TeT1od9j1vY8s+owBhhMxgXoihw9wmIasdmqUilfBYjYYEeJAALofFTAwhk7Y5VOm5IDA==
+length: 12565
 -->
