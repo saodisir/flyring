@@ -13,8 +13,8 @@
                        sparkle:version="59"
                        sparkle:shortVersionString="1.4.3"
                        type="application/octet-stream"
-                       sparkle:edSignature="jUOPe6IAL/AkITl7t7f+d1jiouD8ghOjJIgpqK5NuBXUyiMazkHH3YMN6e/wMJXzKRcAL44xw6a6b+gFHePBBw=="
-                       length="6454873"/>
+                       sparkle:edSignature="voOBQqkVY9jMv6e2mgUOflKU+iUN3XG2X7dlmIsnwV3nCyQVEw8QY+6YILFjVxq8SwV9rpIJW7u0ceH6m+YqBw=="
+                       length="6452126"/>
         </item>
                                 <item>
             <title>Flyring 1.4.2</title>
@@ -139,6 +139,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: 3ugU5ktx0i4h8WcHd6XuHnpSxlwzJMw5p1qQXDhdc/0SonBf7Ceo0QgqDV2Bojh4Zm2JyNfaTvHbVYJ1vBL2Aw==
+edSignature: y16bXpAGljOdUolZotUpoqVmu4uhK8N0pPG//Tpl5VJEQiOMLxA/442tkZzg6RgvpGpm46Oh3CUPcgFLYpY/Aw==
 length: 14812
 -->
