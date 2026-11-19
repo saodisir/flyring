@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
                                 <item>
+            <title>Flyring 1.4.2</title>
+            <pubDate>Thu, 19 Nov 2026 04:50:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.4.2：</p><ul><li>内置便签重做：贴边栏提供文字纸签、彩色小片、缝线票根、文件夹签等样式，编号与票根共用一套排布，竖排标签左右停靠都从上往下写</li><li>剪贴板增强：可给记录加图钉（置顶不占上限）、显示复制来源，图片和文件成卡片展示；顶部可按置顶/时间分段筛选，支持设置保留天数（默认永久，不静默删老档）</li><li>便签设置页加「停止便签」按钮：保存并收起贴边栏，下次点开便签条目时重新加载</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.4.2/Flyring-1.4.2.dmg"
+                       sparkle:version="58"
+                       sparkle:shortVersionString="1.4.2"
+                       type="application/octet-stream"
+                       sparkle:edSignature="QmPmwwlnrJ+dKGDSXIU7bcRsKbQVvbFQ0N7X+aSe9tmOJQcY6CWN3Wsd2KrZJE5Voo61HyoQfin3Isu5bDdXDw=="
+                       length="6446505"/>
+        </item>
+                                <item>
             <title>Flyring 1.4.1</title>
             <pubDate>Wed, 21 Oct 2026 03:13:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -115,6 +127,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: nYxtFjPmQJZp5VMh0TeT1od9j1vY8s+owBhhMxgXoihw9wmIasdmqUilfBYjYYEeJAALofFTAwhk7Y5VOm5IDA==
-length: 12565
+edSignature: sB6zA/i1AWudWMlgiWBtA4NOSCFYVpb7GB6RDhD/CYWcTYYx5mAmiWMEiYcZ7nXlkwTIva5oMBWZdZ/1DGfWDw==
+length: 13871
 -->
