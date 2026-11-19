@@ -5,6 +5,18 @@
         <link>https://github.com/saodisir/flyring</link>
         <description>Flyring 更新源（手动检查）</description>
                                 <item>
+            <title>Flyring 1.4.3</title>
+            <pubDate>Thu, 19 Nov 2026 05:50:00 -0000</pubDate>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <description><![CDATA[<p>Flyring 1.4.3：</p><ul><li>修复：升级后内置便签界面全英文——release 包漏拷本地化资源到主程序，导致便签读不到中文；现在中英文按系统语言正常显示</li></ul>]]></description>
+            <enclosure url="https://github.com/saodisir/flyring/releases/download/v1.4.3/Flyring-1.4.3.dmg"
+                       sparkle:version="59"
+                       sparkle:shortVersionString="1.4.3"
+                       type="application/octet-stream"
+                       sparkle:edSignature="jUOPe6IAL/AkITl7t7f+d1jiouD8ghOjJIgpqK5NuBXUyiMazkHH3YMN6e/wMJXzKRcAL44xw6a6b+gFHePBBw=="
+                       length="6454873"/>
+        </item>
+                                <item>
             <title>Flyring 1.4.2</title>
             <pubDate>Thu, 19 Nov 2026 04:50:00 -0000</pubDate>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
@@ -127,6 +139,6 @@
     </channel>
 </rss>
 <!-- sparkle-signatures:
-edSignature: O5IuUJnExkgzv7tYwhGn1CHCMJqOcBjIgJwIx+w2KB5Rx5W1XI8Hd6fVkySqQEQpRUvBDsQwX27kzMHaANDPBg==
-length: 13871
+edSignature: 3ugU5ktx0i4h8WcHd6XuHnpSxlwzJMw5p1qQXDhdc/0SonBf7Ceo0QgqDV2Bojh4Zm2JyNfaTvHbVYJ1vBL2Aw==
+length: 14812
 -->
